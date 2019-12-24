@@ -1,0 +1,15 @@
+{% load static from staticfiles %}
+
+<!doctype html>
+<html>
+    <head>
+        <title>Minerals Catalog</title>
+        <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+        <div class="minerals__random">
+          <a class="minerals__anchor" href="{% url 'minerals:random' %}">Show random mineral</a>
+        </div>
+    </body>
+</html>
