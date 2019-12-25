@@ -14,7 +14,11 @@
   <div class="grid-100">
     <p class="text-centered">
     {% for char in alpha %}
-      {{ char }}
+      {% if char is letter %}
+        <a style="color: #39f; font-weight: bold; font-size: 2.0rem;" href="{% url 'minerals:alpha_list' letter=char %}" >{{ char }}</a>
+      {% else %}
+        <a href="{% url 'minerals:alpha_list' letter=char %}" >{{ char }}</a>
+      {% endif %}
     {% endfor %}
     </p>
   </div>

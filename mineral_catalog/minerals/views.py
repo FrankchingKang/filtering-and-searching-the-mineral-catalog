@@ -97,6 +97,16 @@ def mineral_list(request):
         'alpha':alpha
     })
 
+def mineral_alpha_list(request, letter='A'):
+    minerals = Minerals.objects.filter(
+        name__istartswith = letter
+    )
+    return render(request, 'minerals/index.html', {
+        'minerals':minerals,
+        'alpha':alpha,
+        'letter':letter
+    })
+
 
 def mineral_detail(request, pk):
     mineral = get_object_or_404(Minerals, pk=pk)
