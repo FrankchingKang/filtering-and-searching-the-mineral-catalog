@@ -8,7 +8,7 @@ import random
 
 import json
 
-# Create your views here.
+alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 def minerals_create(request):
     """ get the minerals from json to database """
@@ -92,12 +92,22 @@ def minerals_create(request):
 
 def mineral_list(request):
     minerals = Minerals.objects.all()
-    return render(request, 'minerals/index.html', {'minerals':minerals})
+    return render(request, 'minerals/index.html', {
+        'minerals':minerals,
+        'alpha':alpha
+    })
+
 
 def mineral_detail(request, pk):
     mineral = get_object_or_404(Minerals, pk=pk)
-    return render(request, 'minerals/detail.html', {'mineral':mineral})
+    return render(request, 'minerals/detail.html', {
+        'mineral':mineral,
+        'alpha':alpha
+        })
 
 def mineral_random_detail(request):
     mineral = random.choice(Minerals.objects.all())
-    return render(request, 'minerals/detail.html', {'mineral':mineral})
+    return render(request, 'minerals/detail.html', {
+        'mineral':mineral,
+        'alpha':alpha
+        })

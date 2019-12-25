@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
 <div class="bounds">
   <div class="grid-100">
       <svg class="logo" viewBox="0 0 127.6 84.8" preserveAspectRation="xMinYMin meet">
@@ -11,6 +10,13 @@
       </svg>
       <h1 class="logo__name text-centered">Minerals</h1>
     <p class="logo__text text-centered"></p>
+  </div>
+  <div class="grid-100">
+    <p class="text-centered">
+    {% for char in alpha %}
+      {{ char }}
+    {% endfor %}
+    </p>
   </div>
   <div class="grid-100">
     <ul class="minerals__container">
