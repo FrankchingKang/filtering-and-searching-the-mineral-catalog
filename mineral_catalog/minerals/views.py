@@ -121,3 +121,15 @@ def mineral_random_detail(request):
         'mineral':mineral,
         'alpha':alpha
         })
+
+def search(request):
+    term = request.GET.get('q')
+    minerals = Minerals.objects.filter(
+        name__icontains = term
+    )
+    return render(request, 'minerals/index.html', {
+        'minerals':minerals,
+        'alpha':alpha,
+        'letter': None,
+        'term' : term
+    })

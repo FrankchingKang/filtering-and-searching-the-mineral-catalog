@@ -7,6 +7,15 @@
         <link rel="stylesheet" href="{% static 'css/global.css' %}">
     </head>
     <body>
+      <div style="margin: 0 auto; width: 200px;">
+        <form action="{% url 'minerals:search' %}" method="GET">
+          <input type="search" name="q">
+          <input type="submit" value="Search">
+        </form>
+        {% if term %}
+          <h3>search: {{ term }}</h3>
+        {% endif %}
+      </div>
         {% block content %}{% endblock %}
         <div class="minerals__random">
           <a class="minerals__anchor" href="{% url 'minerals:random' %}">Show random mineral</a>
