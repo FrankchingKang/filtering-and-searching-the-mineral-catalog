@@ -9,6 +9,9 @@ import random
 import json
 
 alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+groups = ['Silicates', 'Oxides', 'Sulfates', 'Sulfides', 'Carbonates',
+          'Halides', 'Sulfosalts', 'Phosphates', 'Borates',
+          'Organic Minerals', 'Arsenates', 'Native Elements', 'Other']
 
 def minerals_create(request):
     """ get the minerals from json to database """
@@ -94,7 +97,8 @@ def mineral_list(request):
     minerals = Minerals.objects.all()
     return render(request, 'minerals/index.html', {
         'minerals':minerals,
-        'alpha':alpha
+        'alpha':alpha,
+        'groups':groups
     })
 
 def mineral_alpha_list(request, letter='A'):
@@ -104,15 +108,26 @@ def mineral_alpha_list(request, letter='A'):
     return render(request, 'minerals/index.html', {
         'minerals':minerals,
         'alpha':alpha,
-        'letter':letter
+        'letter':letter,
+        'groups':groups
     })
 
+def mineral_group_list(request, group = None):
+    minerals = Minerals.objects.filter(
+        group__icontains = group
+    )
+    return render(request, 'minerals/index.html', {
+        'minerals':minerals,
+        'alpha':alpha,
+        'group':group,
+        'groups':groups
+    })
 
 def mineral_detail(request, pk):
     mineral = get_object_or_404(Minerals, pk=pk)
     return render(request, 'minerals/detail.html', {
         'mineral':mineral,
-        'alpha':alpha
+        'alpha':alpha,
         })
 
 def mineral_random_detail(request):
@@ -131,5 +146,6 @@ def search(request):
         'minerals':minerals,
         'alpha':alpha,
         'letter': None,
-        'term' : term
+        'term' : term,
+        'groups':groups,
     })
