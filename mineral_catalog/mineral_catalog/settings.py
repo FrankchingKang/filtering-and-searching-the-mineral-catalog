@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'minerals',
 ]
 
@@ -123,3 +124,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'static_root')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
 )
+
+
+INTERNAL_IPS = ['127.0.0.1' , 'localhost', '::1', '0.0.0.0' ]
+MIDDLEWARE += [
+   'debug_toolbar.middleware.DebugToolbarMiddleware'
+]
