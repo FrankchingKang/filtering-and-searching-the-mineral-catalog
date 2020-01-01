@@ -5,6 +5,12 @@ from django.test import TestCase
 from .models import Minerals
 from django.urls import reverse
 
+alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+groups = ['Silicates', 'Oxides', 'Sulfates', 'Sulfides', 'Carbonates',
+          'Halides', 'Sulfosalts', 'Phosphates', 'Borates',
+          'Organic Minerals', 'Arsenates', 'Native Elements', 'Other']
+
+
 class MineralModelTests(TestCase):
     def test_mineral_creation(self):
         mineral = Minerals.objects.create(
@@ -19,15 +25,16 @@ class MineralModelTests(TestCase):
 class MineralViewsTests(TestCase):
     def setUp(self):
         self.mineral = Minerals.objects.create(
-            name = "test mineral one",
-            color = "red"
+            #name = "test_mineral_one",
+            name = "Apple",
+            color = "Red",
         )
         self.mineral2 = Minerals.objects.create(
-            name = "test mineral two",
-            color = "blue"
+            name = "Banana",
+            color = "Yellow",
         )
         self.mineral3 = Minerals.objects.create(
-            name = "test name",
+            name = "Test Name",
             image_filename = "testname.jbp",
             image_caption = "",
             category = "Sulfides and Sulfosalts",
@@ -39,13 +46,13 @@ class MineralViewsTests(TestCase):
             cleavage = "test cleavage",
             mohs_scale_hardness = "test mohs_scale_hardness",
             luster = "test luster",
-            streak = "test streak",
+            streak = "Test Streak",
             diaphaneity = "test diap",
             optical_properties = "test optical_properties",
             refractive_index = "test refractive",
             crystal_habit = "test crystal",
             specific_gravity = "test specific_gravity",
-            group = "test group",
+            group = "Test Group",
         )
 
     def test_mineral_list_view(self):
@@ -90,3 +97,25 @@ class MineralViewsTests(TestCase):
         resp = self.client.get(reverse('minerals:random'))
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'minerals/detail.html')
+
+    def test_mineral_alpha_list_view(self):
+        resp = self.client.get(reverse('minerals:alpha_list',
+                                        kwargs={'letter': 'B'}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'minerals/index.html')
+        self.assertIn(self.mineral2, resp.context['minerals'])
+        self.assertNotIn(self.mineral3, resp.context['minerals'])
+
+    def test_search_view(self):
+        resp = self.client.get(reverse('minerals:search'), {'q': 'Apple'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'minerals/index.html')
+        self.assertIn(self.mineral, resp.context['minerals'])
+
+    def test_mineral_group_list_view(self):
+        resp = self.client.get(reverse('minerals:group_list',
+                                        kwargs={'group': 'Test Group'}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'minerals/index.html')
+        self.assertNotIn(self.mineral, resp.context['minerals'])
+        self.assertIn(self.mineral3, resp.context['minerals'])
